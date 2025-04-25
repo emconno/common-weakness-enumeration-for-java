@@ -6,6 +6,7 @@ public class Flight {
     private int maxNumSeats; 
     private int currentNumSeats = 0; 
 
+    
     public Flight(String flightNumber, String aircraftModel, int maxNumSeats, int currentNumSeats){
         this.flightNumber = flightNumber; 
         this.aircraftModel = aircraftModel; 
