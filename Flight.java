@@ -30,4 +30,20 @@ public class Flight {
         return this.currentNumSeats;
     }
 
+    public boolean bookSeat() {
+        if (currentNumSeats < maxNumSeats) {
+            currentNumSeats++;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean unbookSeat() {
+        if (currentNumSeats > 0) {
+            currentNumSeats--;
+            return true;
+        }
+        return false;
+    }
+
 }

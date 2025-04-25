@@ -3,39 +3,32 @@ import java.util.Scanner;
 public class Menu {
 
     //CWE-582: Array Declared Public, Final, and Static
+    //CWE-766: Critical Data Element Declared Public
     private static String[] menuItems = {"Book a Flight", "Unbook a Flight", "View Available Flights", "Quit"};
 
-    public static int getMenuChoice(){
-
-        //print menu
-        for(int i = 0; i < menuItems.length; i++){
+    public static int getMenuChoice(Scanner keyboard) {
+        // Print menu
+        for (int i = 0; i < menuItems.length; i++) {
             System.out.println((i + 1) + " - " + menuItems[i]);
         }
 
-        //instantiate a Scanner
-        Scanner keyboard = new Scanner(System.in);
+        // Store user choice depending on value in Scanner
+        int choice;
 
-        //store user choice depending on value in Scanner
-        int choice; 
-
-        //if we have an integer in the Scanner, 
-        if(keyboard.hasNextInt()){
+        // If we have an integer in the Scanner,
+        if (keyboard.hasNextInt()) {
             choice = keyboard.nextInt();
 
-            if(choice < 0 || choice >= menuItems.length){
-                choice = 1; //automatically quit
+            if (choice < 1 || choice > menuItems.length) {
+                /* CWE-481: Assigning instead of comparing */
+                choice = 4; // Automatically quit
             }
-
-
         } else {
-            choice = 1; //automatically quit 
-        } 
+            choice = 4; // Automatically quit
+            keyboard.next(); // Clear invalid input
+        }
 
-        //close keyboard for security reasons
-        keyboard.close(); 
-
-        return choice; 
-
+        return choice;
     }
 
 }

@@ -1,7 +1,7 @@
 public class User {
-    public String name;
-    public int age;
-    public Listing[] listings;
+    private String name;
+    private int age;
+    private Listing[] listings;
 
     public User(String name, int age) {
         this.name = name;
@@ -23,6 +23,13 @@ public class User {
 
     public int getAge() {
         return this.age;
+    }
+
+    public Listing[] getListings() {
+        // CWE-375: Returning a Mutable Object to an Untrusted Caller
+        // CWE-767: Access to Critical Private Variable via Public Method
+        // Using .clone() to avoid the above CWEs
+        return listings.clone(); 
     }
 
     

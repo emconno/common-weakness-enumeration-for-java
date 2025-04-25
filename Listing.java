@@ -15,12 +15,20 @@ public class Listing {
         this.arrival = arrival;
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        /* CWE-580: clone() Method Without super.clone() */
+        Listing cloned = (Listing) super.clone();
+        cloned.date = new Date(this.date.getTime()); // Defensive copy
+        return cloned;
+    }
+
     public Flight getFlight(){
         return this.flight; 
     }
 
     public Date getDate(){
-        return new Date(this.date.getDate());
+        return new Date(this.date.getTime());
     }
 
     public LocalTime getDeparture(){
