@@ -2,14 +2,19 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Main {
+    // CWE-493: Critical Public Variable Without Final Modifier
+    // CWE-500: Public Static Field Not Marked Final 
+    public static final Flight[] flights = {
+        new Flight("101", "Boeing 737", 100, 0, "Chicago"),
+        new Flight("202", "Airbus A320", 150, 0, "Mexico City"),
+        new Flight("303", "Boeing 747", 200, 0, "Paris")
+    };
+
     public static void main(String[] args) {
         // Initialize components
         Scanner scanner = new Scanner(System.in);
-        Flight[] flights = {
-            new Flight("101", "Boeing 737", 100, 0, "Chicago"),
-            new Flight("202", "Airbus A320", 150, 0, "Mexico City"),
-            new Flight("303", "Boeing 747", 200, 0, "Paris")
-        };
+
+        
 
         boolean running = true;
 
