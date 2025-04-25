@@ -7,6 +7,8 @@ public class Menu {
 
     // CWE-495: Private Data Structure Returned From A Public Method
     // Achieved through the absence of a getMenuItems method
+    // CWE-496: Public Data Assigned to Private Array-Typed Field 
+    // Acheived by hard-coding menuItem strings
     private static String[] menuItems = {"Book a Flight", "Unbook a Flight", "View Available Flights", "Book By Destination", "Quit"};
 
     public static int getMenuChoice(Scanner keyboard) {
