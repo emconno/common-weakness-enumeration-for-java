@@ -4,6 +4,9 @@ public class Menu {
 
     //CWE-582: Array Declared Public, Final, and Static
     //CWE-766: Critical Data Element Declared Public
+
+    // CWE-495: Private Data Structure Returned From A Public Method
+    // Achieved through the absence of a getMenuItems method
     private static String[] menuItems = {"Book a Flight", "Unbook a Flight", "View Available Flights", "Book By Destination", "Quit"};
 
     public static int getMenuChoice(Scanner keyboard) {
