@@ -4,7 +4,7 @@ public class Menu {
 
     //CWE-582: Array Declared Public, Final, and Static
     //CWE-766: Critical Data Element Declared Public
-    private static String[] menuItems = {"Book a Flight", "Unbook a Flight", "View Available Flights", "Quit"};
+    private static String[] menuItems = {"Book a Flight", "Unbook a Flight", "View Available Flights", "Book By Destination", "Quit"};
 
     public static int getMenuChoice(Scanner keyboard) {
         // Print menu
@@ -21,10 +21,10 @@ public class Menu {
 
             if (choice < 1 || choice > menuItems.length) {
                 /* CWE-481: Assigning instead of comparing */
-                choice = 4; // Automatically quit
+                choice = menuItems.length; // Automatically quit
             }
         } else {
-            choice = 4; // Automatically quit
+            choice = menuItems.length; // Automatically quit
             keyboard.next(); // Clear invalid input
         }
 

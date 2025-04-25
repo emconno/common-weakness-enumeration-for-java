@@ -4,14 +4,16 @@ public class Flight {
     private String flightNumber; 
     private String aircraftModel; 
     private int maxNumSeats; 
-    private int currentNumSeats = 0; 
+    private int currentNumSeats = 0;
+    private String destination;
 
     
-    public Flight(String flightNumber, String aircraftModel, int maxNumSeats, int currentNumSeats){
+    public Flight(String flightNumber, String aircraftModel, int maxNumSeats, int currentNumSeats, String destination){
         this.flightNumber = flightNumber; 
         this.aircraftModel = aircraftModel; 
         this.maxNumSeats = maxNumSeats; 
         this.currentNumSeats = currentNumSeats;
+        this.destination = destination;
     }
 
     public String getFlighNumber(){
@@ -28,6 +30,10 @@ public class Flight {
 
     public int getCurrentNumSeats(){
         return this.currentNumSeats;
+    }
+
+    public String getDestination() {
+        return this.destination;
     }
 
     public boolean bookSeat() {
