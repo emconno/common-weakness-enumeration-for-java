@@ -15,21 +15,28 @@ public class Menu {
         //instantiate a Scanner
         Scanner keyboard = new Scanner(System.in);
 
-        //store user choice depending on value in Scanner
-        int choice; 
+        int choice; //this will capture the userinput (so long it's a valid integer)
 
-        //if we have an integer in the Scanner, 
-        if(keyboard.hasNextInt()){
-            choice = keyboard.nextInt();
+        //loop until we get a valid integer (one that is between 1 and menuItems.length (inclusive))
+        while(true){
 
-            if(choice < 0 || choice >= menuItems.length){
-                choice = 1; //automatically quit
+            String input = keyboard.nextLine();
+
+
+
+            try{
+                choice = Integer.parseInt(input);
+
+                if(choice > 0 && choice <= menuItems.length){
+                    break;
+                } else {
+                    System.out.println("Your input was a valid integer, however it is not a valid choice given the range 1 - " + menuItems.length);
+                }
+            }catch(NumberFormatException e){
+                System.out.println("Your input was not a valid integer. Please enter an integer between 1 and " + menuItems.length);
             }
 
-
-        } else {
-            choice = 1; //automatically quit 
-        } 
+        }
 
         //close keyboard for security reasons
         keyboard.close(); 
