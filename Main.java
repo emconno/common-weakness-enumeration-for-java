@@ -34,8 +34,9 @@ public class Main {
         return result;
     }
 
-    public static void handleUserSelection(Flight[] flights, Scanner scanner, int index){
-        boolean running = true;
+    public static void handleUserSelection(Flight[] flights, Scanner scanner, int index) {
+        try {  // CWE-537: Start of try block
+            boolean running = true;
         while (running) {
             int choice = Menu.getMenuChoice(scanner, Menu.getFlightMenu());
 
@@ -83,9 +84,16 @@ public class Main {
                     System.out.println("Available flights:");
                     for (Flight flight : flights) {
                         System.out.println(flight.getFlighNumber() + " (" +
-                                flight.getCurrentNumSeats() + "/" + flight.getMaxNumSeats() + " seats booked) to " + flight.getDestination());
+                            flight.getCurrentNumSeats() + "/" + flight.getMaxNumSeats() + " seats booked) to " + flight.getDestination());
                     }
-                    break;
+    
+                    // CWE-486: Add compatibility check
+                    if (flights.length >= 2) {
+                        boolean compatible = flights[0].isAircraftModelCompatible(flights[1]);
+                        System.out.println("\nCompatibility Check:");
+                        System.out.println(flights[0].getFlighNumber() + " and " + flights[1].getFlighNumber() + " are " + (compatible ? "compatible" : "not compatible"));
+                    }
+                    break;    
 
                 case 4: // Book by Destination
                     System.out.println("Enter your desired destination:");
@@ -132,10 +140,14 @@ public class Main {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
+    } catch (Exception e) {  // CWE-537: Generic error handling
+        System.out.println("An error occurred while processing your request.");
     }
+}
 
 
     public static void main(String[] args) {
+    try {  // CWE-537: Start of try block
         // Initialize components
         Scanner scanner = new Scanner(System.in);
 
@@ -225,5 +237,7 @@ public class Main {
         }   
 
         scanner.close(); //close scanner. CWE-382: J2EE Bad Practices: Use of System.exit(). Don't use System.exit()
+     } catch (Exception e) {  // CWE-537: Generic error handling
+        System.out.println("An error occurred. Please try again.");
     }
 }
