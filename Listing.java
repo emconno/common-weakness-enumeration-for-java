@@ -1,14 +1,14 @@
 import java.time.LocalTime;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Listing {
     
     private Flight flight; 
-    private Date date; 
+    private LocalDate date; 
     private LocalTime departure; 
     private LocalTime arrival; 
 
-    Listing(Flight flight, Date date, LocalTime departure, LocalTime arrival){
+    Listing(Flight flight, LocalDate date, LocalTime departure, LocalTime arrival){
         this.flight = flight; 
         this.date = date; 
         this.departure = departure; 
@@ -19,7 +19,7 @@ public class Listing {
     protected Object clone() throws CloneNotSupportedException {
         /* CWE-580: clone() Method Without super.clone() */
         Listing cloned = (Listing) super.clone();
-        cloned.date = new Date(this.date.getTime()); // Defensive copy
+        cloned.date = LocalDate.of(this.date.getYear(), this.date.getMonth().getValue(), this.date.getDayOfMonth()); // Defensive copy
         return cloned;
     }
 
@@ -27,8 +27,8 @@ public class Listing {
         return this.flight; 
     }
 
-    public Date getDate(){
-        return new Date(this.date.getTime());
+    public LocalDate getDate(){
+        return LocalDate.of(this.date.getYear(), this.date.getMonth().getValue(), this.date.getDayOfMonth());
     }
 
     public LocalTime getDeparture(){

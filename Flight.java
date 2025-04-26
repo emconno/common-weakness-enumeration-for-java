@@ -16,7 +16,7 @@ public class Flight {
         this.destination = destination;
     }
 
-    public String getFlighNumber(){
+    public String getFlightNumber(){
         return this.flightNumber;
     }
 

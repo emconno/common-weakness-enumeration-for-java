@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Main {
     // CWE-493: Critical Public Variable Without Final Modifier
@@ -8,6 +10,13 @@ public class Main {
         new Flight("101", "Boeing 737", 100, 0, "Chicago"),
         new Flight("202", "Airbus A320", 150, 0, "Mexico City"),
         new Flight("303", "Boeing 747", 200, 0, "Paris")
+    };
+
+    public static final Listing[] listings = {
+        new Listing(flights[0], LocalDate.of(2025, 6, 15), LocalTime.of(17,50), LocalTime.of(20, 45)),
+        new Listing(flights[1], LocalDate.of(2025, 7, 23), LocalTime.of(14,15), LocalTime.of(17, 37)),
+        new Listing(flights[2], LocalDate.of(2025, 7, 24), LocalTime.of(8,15), LocalTime.of(10, 45))
+
     };
 
     public static String readCleanLine(Scanner scanner){
@@ -34,7 +43,7 @@ public class Main {
         return result;
     }
 
-    public static void handleUserSelection(Flight[] flights, Scanner scanner, int index){
+    public static void handleUserSelection(Flight[] flights, Scanner scanner, User user){
         boolean running = true;
         while (running) {
             int choice = Menu.getMenuChoice(scanner, Menu.getFlightMenu());
@@ -43,13 +52,15 @@ public class Main {
                 case 1: // Book a flight
                     System.out.println("Available flights:");
                     for (int i = 0; i < flights.length; i++) {
-                        System.out.println((i + 1) + ". " + flights[i].getFlighNumber() +
+                        System.out.println((i + 1) + ". " + flights[i].getFlightNumber() +
                                 " (" + flights[i].getCurrentNumSeats() + "/" + flights[i].getMaxNumSeats() + " seats booked) to " + flights[i].getDestination());
                     }
                     System.out.print("Enter the flight number to book: ");
                     int flightToBook = scanner.nextInt() - 1;
                     if (flightToBook >= 0 && flightToBook < flights.length) {
                         if (flights[flightToBook].bookSeat()) {
+                            Listing listing = new Listing(flights[flightToBook], listings[flightToBook].getDate(), listings[flightToBook].getDeparture(), listings[flightToBook].getArrival());
+                            user.addListing(listing);
                             System.out.println("Flight booked successfully!");                            
                         } else {
                             System.out.println("No seats available on this flight.");
@@ -63,7 +74,7 @@ public class Main {
                     
                     System.out.println("Available flights:");
                     for (int i = 0; i < flights.length; i++) {
-                        System.out.println((i + 1) + ". " + flights[i].getFlighNumber() +
+                        System.out.println((i + 1) + ". " + flights[i].getFlightNumber() +
                                 " (" + flights[i].getCurrentNumSeats() + "/" + flights[i].getMaxNumSeats() + " seats booked) to " + flights[i].getDestination());
                     }
                     System.out.print("Enter the flight number to unbook: ");
@@ -82,7 +93,7 @@ public class Main {
                 case 3: // View available flights
                     System.out.println("Available flights:");
                     for (Flight flight : flights) {
-                        System.out.println(flight.getFlighNumber() + " (" +
+                        System.out.println(flight.getFlightNumber() + " (" +
                                 flight.getCurrentNumSeats() + "/" + flight.getMaxNumSeats() + " seats booked) to " + flight.getDestination());
                     }
                     break;
@@ -105,7 +116,7 @@ public class Main {
                     } else {
                         System.out.println("Available flights:");
                         for (int i = 0; i < searchResults.size(); i++) {
-                            System.out.println((i + 1) + ". " + flights[i].getFlighNumber() +
+                            System.out.println((i + 1) + ". " + flights[i].getFlightNumber() +
                                     " (" + searchResults.get(i).getCurrentNumSeats() + "/" + searchResults.get(i).getMaxNumSeats() + " seats booked) to " + searchResults.get(i).getDestination());
                         }
 
@@ -194,7 +205,7 @@ public class Main {
                     for(int i = 0; i < currentUsers.length; i++){
                         if(currentUsers[i] != null){//CWE-476: NULL Pointer Dereference: achieved by checking if null before trying to access it
                             if(currentUsers[i].getName().equals(userName) && currentUsers[i].getAge() == userAge){
-                                index = i; 
+                                User curUser = currentUsers[i];
                                 //get the user's password
                                 userFound = true; 
                                 System.out.println("Enter password");
@@ -202,13 +213,12 @@ public class Main {
 
                                 if(userPassword.equals(currentUsers[i].getPassword())){
                                     //run code for what the user wants to do in their account
-                                    handleUserSelection(flights, scanner, index);
+                                    handleUserSelection(flights, scanner, curUser);
                                     break;
                                 } else {
                                     System.out.println("Invalid Password");
                                     break;
                                 }
-
                             }
                         }
                     }

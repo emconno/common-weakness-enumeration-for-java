@@ -38,5 +38,28 @@ public class User {
         return listings.clone(); 
     }
 
-    
+    public void addListing(Listing listing){
+
+        try{
+            System.out.println("Listing added: " + listing.getFlight().getAircraftModel() + ", " + listing.getFlight().getMaxNumSeats() + ", " + listing.getFlight().getFlightNumber());
+        }catch(NullPointerException e){ //CWE-396: Declaration of Catch for Generic Exception: achieved by catching specific exception instead of generic exception.
+            System.out.println("Error in loading flight information.");
+        }
+
+        for(int i = 0; i < 10; i++){
+            if(listings[i] == null){
+                listings[i] = listing;
+                break;
+            }
+        }
+    }
+
+    public void removeListing(Listing listing){
+        for(int i = 0; i < 10; i++){
+            if(listings[i].getFlight().getFlightNumber().equals(listing.getFlight().getFlightNumber())){
+                listings[i] = null;
+            }
+        }
+    }
+
 }
