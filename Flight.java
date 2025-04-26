@@ -35,6 +35,14 @@ public class Flight {
     public String getDestination() {
         return this.destination;
     }
+        // CWE-486: Proper class comparison
+    public boolean isAircraftModelCompatible(Flight otherFlight) {
+        if (otherFlight == null) return false;
+        if (this.getClass() != otherFlight.getClass()) {
+            return false;
+        }
+        return this.aircraftModel.equals(otherFlight.aircraftModel);
+    }
 
     public boolean bookSeat() {
         if (currentNumSeats < maxNumSeats) {
