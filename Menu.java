@@ -44,13 +44,15 @@ public class Menu {
         if(scanner.hasNextInt()){
             num = scanner.nextInt();
 
-            if(num < 0){
+            // CWE-191: Integer underflow protection
+            if (num == Integer.MIN_VALUE) {
+                num = Integer.MAX_VALUE;
+            } else if(num < 0){
                 num *= -1; 
             } else if (num == 0){
                 num = 3; 
             }
             scanner.nextLine();
-
         } else {
             num = 3; 
             scanner.nextLine();
