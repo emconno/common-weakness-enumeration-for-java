@@ -1,11 +1,13 @@
 public class User {
     private String name;
     private int age;
+    private String password; 
     private Listing[] listings;
 
-    public User(String name, int age) {
+    public User(String name, int age, String password) {
         this.name = name;
         this.age = age;
+        this.password = password; 
         this.listings = new Listing[10];
     }
 
@@ -23,6 +25,10 @@ public class User {
 
     public int getAge() {
         return this.age;
+    }
+
+    public String getPassword() {
+        return new String(this.password);
     }
 
     public Listing[] getListings() {

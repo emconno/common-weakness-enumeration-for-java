@@ -10,17 +10,34 @@ public class Main {
         new Flight("303", "Boeing 747", 200, 0, "Paris")
     };
 
-    public static void main(String[] args) {
-        // Initialize components
-        Scanner scanner = new Scanner(System.in);
+    public static String readCleanLine(Scanner scanner){
+        if(scanner.hasNextLine()){
+            return scanner.nextLine().trim();
+        } else {
+            return "";
+        }
+    }
 
-        
+    public static int readCleanInteger(Scanner scanner){
+        int result; 
 
+        while(true){
+            if(scanner.hasNextInt()){
+                result = scanner.nextInt();
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter an integer");
+                scanner.nextLine();
+            }
+        }
+
+        return result;
+    }
+
+    public static void handleUserSelection(Flight[] flights, Scanner scanner, int index){
         boolean running = true;
-
-        // Main program loop
         while (running) {
-            int choice = Menu.getMenuChoice(scanner);
+            int choice = Menu.getMenuChoice(scanner, Menu.getFlightMenu());
 
             switch (choice) {
                 case 1: // Book a flight
@@ -33,7 +50,7 @@ public class Main {
                     int flightToBook = scanner.nextInt() - 1;
                     if (flightToBook >= 0 && flightToBook < flights.length) {
                         if (flights[flightToBook].bookSeat()) {
-                            System.out.println("Flight booked successfully!");
+                            System.out.println("Flight booked successfully!");                            
                         } else {
                             System.out.println("No seats available on this flight.");
                         }
@@ -106,8 +123,8 @@ public class Main {
                         break;
                     }
                     
-                case 5: // Quit
-                    System.out.println("Thank you for using the flight booking system. Goodbye!");
+                case 5: // Sign out
+                    System.out.println("Signing out");
                     running = false;
                     break;
 
@@ -115,7 +132,98 @@ public class Main {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
+    }
 
-        scanner.close();
+
+    public static void main(String[] args) {
+        // Initialize components
+        Scanner scanner = new Scanner(System.in);
+
+        
+        boolean outerLoopRunning = true;
+
+
+
+        User[] currentUsers = new User[20];
+
+        // Main program loop
+
+        while(outerLoopRunning){
+            int choice = Menu.getMenuChoice(scanner, Menu.getUserMenuItems());
+
+            switch(choice){
+                case 1:
+
+                    //run code for create an account
+                    System.out.println("Enter your name: ");
+                    String name = readCleanLine(scanner);
+
+                    System.out.println("name entered: " + name);
+                    System.out.println("Enter your age");
+                    int age = Menu.getIntegerInput(scanner);
+                    System.out.println("Enter password");
+                    
+                    String password = readCleanLine(scanner);
+
+                    boolean maxUsersReached = (currentUsers[currentUsers.length - 1] != null);
+                    int index = currentUsers.length;
+                    if(!maxUsersReached){
+                        for(int i = 0; i < currentUsers.length; i++){
+                            if(currentUsers[i] == null){
+                                currentUsers[i] = new User(name, age, password);
+                                break;
+                            } 
+    
+                        }
+                    } else {
+                        System.out.println("Max number of users reached.");
+                    }
+
+                    break;
+
+                case 2: 
+                    //run code for sign into account
+
+                    System.out.println("Enter your name: ");
+                    String userName = readCleanLine(scanner);
+                    System.out.println("Enter your age");
+                    int userAge = Menu.getIntegerInput(scanner);
+
+                    
+                    boolean userFound = false; 
+                    for(int i = 0; i < currentUsers.length; i++){
+                        if(currentUsers[i] != null){//CWE-476: NULL Pointer Dereference: achieved by checking if null before trying to access it
+                            if(currentUsers[i].getName().equals(userName) && currentUsers[i].getAge() == userAge){
+                                index = i; 
+                                //get the user's password
+                                userFound = true; 
+                                System.out.println("Enter password");
+                                String userPassword = scanner.nextLine();
+
+                                if(userPassword.equals(currentUsers[i].getPassword())){
+                                    //run code for what the user wants to do in their account
+                                    handleUserSelection(flights, scanner, index);
+                                    break;
+                                } else {
+                                    System.out.println("Invalid Password");
+                                    break;
+                                }
+
+                            }
+                        }
+                    }
+                    if(!userFound){
+                        System.out.println("We could not find a user with the name: " + userName + " and age " + userAge);
+                    }
+
+                    break;
+                case 3: 
+                    //run code for quitting
+                    outerLoopRunning = false;
+                    break;
+            }
+        }   
+
+        scanner.close(); //close scanner. CWE-382: J2EE Bad Practices: Use of System.exit(). Don't use System.exit()
     }
 }

@@ -1,4 +1,6 @@
 import java.util.Scanner; 
+import java.util.Arrays; 
+
 
 public class Menu {
 
@@ -9,12 +11,12 @@ public class Menu {
     // Achieved through the absence of a getMenuItems method
     // CWE-496: Public Data Assigned to Private Array-Typed Field 
     // Acheived by hard-coding menuItem strings
-    private static String[] menuItems = {"Book a Flight", "Unbook a Flight", "View Available Flights", "Book By Destination", "Quit"};
-
-    public static int getMenuChoice(Scanner keyboard) {
+    private static String[] menuItems = {"Book a Flight", "Unbook a Flight", "View Available Flights", "Book By Destination", "Sign out of Account"};
+    private static String[] userMenuItems = {"Create Account", "Sign into Account", "Quit"};
+    public static int getMenuChoice(Scanner keyboard, String[] menu) {
         // Print menu
-        for (int i = 0; i < menuItems.length; i++) {
-            System.out.println((i + 1) + " - " + menuItems[i]);
+        for (int i = 0; i < menu.length; i++) {
+            System.out.println((i + 1) + " - " + menu[i]);
         }
 
         // Store user choice depending on value in Scanner
@@ -23,17 +25,48 @@ public class Menu {
         // If we have an integer in the Scanner,
         if (keyboard.hasNextInt()) {
             choice = keyboard.nextInt();
-
-            if (choice < 1 || choice > menuItems.length) {
+            keyboard.nextLine();
+            if (choice < 1 || choice > menu.length) {
                 /* CWE-481: Assigning instead of comparing */
-                choice = menuItems.length; // Automatically quit
+                choice = menu.length; // Automatically quit
             }
         } else {
-            choice = menuItems.length; // Automatically quit
-            keyboard.next(); // Clear invalid input
+            choice = menu.length; // Automatically quit
+            keyboard.nextLine(); // Clear invalid input
         }
 
         return choice;
+    }
+
+    public static int getIntegerInput(Scanner scanner){
+        int num; 
+
+        if(scanner.hasNextInt()){
+            num = scanner.nextInt();
+
+            if(num < 0){
+                num *= -1; 
+            } else if (num == 0){
+                num = 3; 
+            }
+            scanner.nextLine();
+
+        } else {
+            num = 3; 
+            scanner.nextLine();
+        }
+
+        return num;
+    }
+
+    public static String[] getFlightMenu(){
+        String[] menuItemsCopy = Arrays.copyOf(menuItems, menuItems.length);
+        return menuItemsCopy;
+    }
+
+    public static String[] getUserMenuItems(){
+        String[] userMenuItemsCopy = Arrays.copyOf(userMenuItems, userMenuItems.length);
+        return userMenuItemsCopy;
     }
 
 }
