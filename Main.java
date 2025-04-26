@@ -136,11 +136,11 @@ public class Main {
                     running = false;
                     break;
 
-                default:
+                default: // CWE-478
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-    } catch (Exception e) {  // CWE-537: Generic error handling
+    } catch (Exception e) {  // CWE-537
         System.out.println("An error occurred while processing your request.");
     }
 }
