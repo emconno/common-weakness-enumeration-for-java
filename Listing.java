@@ -16,6 +16,7 @@ public class Listing {
     }
 
     @Override
+    // CWE-397: Specific CloneNotSupportedException
     protected Object clone() throws CloneNotSupportedException {
         /* CWE-580: clone() Method Without super.clone() */
         Listing cloned = (Listing) super.clone();
